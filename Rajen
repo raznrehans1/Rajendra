@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Salary Calculator</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+  h1 { text-align: center; }
+  label { display: block; margin-top: 10px; }
+  input { width: 100%; padding: 8px; margin-top: 4px; }
+  button { margin-top: 15px; width: 100%; padding: 10px; font-size: 16px; }
+  .result { margin-top: 20px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Salary Calculator</h1>
+
+<label>Hourly Rate (₩):
+<input type="number" id="hourlyRate" value="10030">
+</label>
+
+<label>Basic Hours/Day:
+<input type="number" id="basicHours" value="8">
+</label>
+
+<label>Overtime Hours/Day:
+<input type="number" id="overtimeHours" value="2.5">
+</label>
+
+<label>Night Bonus Hours/Day:
+<input type="number" id="nightHours" value="3.5">
+</label>
+
+<label>Working Days/Month:
+<input type="number" id="workingDays" value="26">
+</label>
+
+<label>Saturday Hours:
+<input type="number" id="saturdayHours" value="8">
+</label>
+
+<button onclick="calculateSalary()">Calculate</button>
+
+<div class="result" id="result"></div>
+
+<script>
+function calculateSalary() {
+  const rate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+  const basicHours = parseFloat(document.getElementById('basicHours').value) || 0;
+  const overtimeHours = parseFloat(document.getElementById('overtimeHours').value) || 0;
+  const nightHours = parseFloat(document.getElementById('nightHours').value) || 0;
+  const workingDays = parseFloat(document.getElementById('workingDays').value) || 0;
+  const saturdayHours = parseFloat(document.getElementById('saturdayHours').value) || 0;
+
+  const sundayFreePay = rate * 8 * 4; // 4 Sundays
+  const basicPay = rate * basicHours * workingDays;
+  const overtimePay = rate * overtimeHours * workingDays * 1.5;
+  const nightPay = rate * nightHours * workingDays * 1.5;
+  const saturdayPay = rate * saturdayHours * 4 * 1.5;
+
+  const total = basicPay + overtimePay + nightPay + saturdayPay + sundayFreePay;
+
+  document.getElementById('result').innerHTML =
+    `<p>Basic Pay: ₩${basicPay.toLocaleString()}</p>
+     <p>Overtime Pay: ₩${overtimePay.toLocaleString()}</p>
+     <p>Night Bonus: ₩${nightPay.toLocaleString()}</p>
+     <p>Saturday Pay: ₩${saturdayPay.toLocaleString()}</p>
+     <p>Sunday Free Pay: ₩${sundayFreePay.toLocaleString()}</p>
+     <hr>
+     <p>Total Salary: ₩${total.toLocaleString()}</p>`;
+}
+</script>
+
+</body>
+</html>
